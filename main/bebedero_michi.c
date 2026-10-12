@@ -3,6 +3,9 @@
 #include "freertos/task.h"
 #include "esp_adc/adc_oneshot.h"
 #include "esp_log.h"
+#include "bebedero.h"
+
+#define N_MUESTRAS 5
 
 static const char *TAG = "bebedero";
 
@@ -17,16 +20,25 @@ void app_main(void)
 
     // 2. Configurar el canal del GPIO 34
     adc_oneshot_chan_cfg_t chan_cfg = {
-        .atten = ADC_ATTEN_DB_12,          // permite medir hasta ~3.3 V
-        .bitwidth = ADC_BITWIDTH_DEFAULT,  // 12 bits: valores de 0 a 4095
+        .atten = ADC_ATTEN_DB_12,
+        .bitwidth = ADC_BITWIDTH_DEFAULT,
     };
     ESP_ERROR_CHECK(adc_oneshot_config_channel(adc1, ADC_CHANNEL_6, &chan_cfg));
 
-    // 3. Leer e imprimir cada 500 ms
+    // 3. Variables para el promedio y el estado
+    int muestras[N_MUESTRAS] = {0};
+    int indice = 0;
+    nivel_t nivel = NIVEL_VACIO;
+
+    // 4. Leer, promediar, clasificar e imprimir cada 500 ms
     while (1) {
-        int lectura = 0;
-        ESP_ERROR_CHECK(adc_oneshot_read(adc1, ADC_CHANNEL_6, &lectura));
-        ESP_LOGI(TAG, "Sensor de agua: %d", lectura);
+        ESP_ERROR_CHECK(adc_oneshot_read(adc1, ADC_CHANNEL_6, &muestras[indice]));
+        indice = (indice + 1) % N_MUESTRAS;   // buffer circular
+
+        int promedio = bebedero_promedio(muestras, N_MUESTRAS);
+        nivel = bebedero_clasificar(promedio, nivel);
+
+        ESP_LOGI(TAG, "Promedio: %4d  ->  %s", promedio, bebedero_nivel_texto(nivel));
         vTaskDelay(pdMS_TO_TICKS(500));
     }
 }
