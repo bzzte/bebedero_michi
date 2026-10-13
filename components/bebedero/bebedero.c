@@ -2,7 +2,7 @@
 #include "bebedero.h"
 
 // Límites calibrados con el sensor real (ver README)
-#define LIMITE_VACIO_MEDIO  200
+#define LIMITE_VACIO_MEDIO  500
 #define LIMITE_MEDIO_LLENO  1300
 #define HISTERESIS          100
 

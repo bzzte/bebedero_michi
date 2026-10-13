@@ -54,6 +54,28 @@ TEST_CASE("La alerta suena solo al vaciarse", "[alerta]")
     TEST_ASSERT_FALSE(bebedero_debe_alertar(NIVEL_VACIO, NIVEL_MEDIO));
 }
 
+
+TEST_CASE("Visitas: no cuenta dos veces en menos de 10 s", "[visitas]")
+{
+    visitas_t v;
+    bebedero_visitas_reiniciar(&v);
+
+    // Segundo 0: el PIR se activa -> primera visita
+    TEST_ASSERT_TRUE(bebedero_visitas_actualizar(&v, true, 0));
+    bebedero_visitas_actualizar(&v, false, 2000);   // el PIR se apaga
+
+    // Segundo 6: se activa otra vez -> ¿cuenta o no?
+    // escribe aquí la línea
+
+    bebedero_visitas_actualizar(&v, false, 8000);
+
+    // Segundo 12: se activa otra vez -> ¿cuenta o no?
+    // escribe aquí la línea
+
+    // Al final, ¿cuántas visitas debería haber?
+    TEST_ASSERT_EQUAL_INT( ? , v.total);
+}
+
 /* ---------- Ejecutar todas las pruebas ---------- */
 
 void app_main(void)
