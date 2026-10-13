@@ -48,3 +48,18 @@ const char *bebedero_nivel_texto(nivel_t nivel)
     }
     return "DESCONOCIDO";
 }
+
+color_t bebedero_color(nivel_t nivel)
+{
+    switch (nivel) {
+    case NIVEL_LLENO: return (color_t){ .r = false, .g = true,  .b = false }; // verde
+    case NIVEL_MEDIO: return (color_t){ .r = true,  .g = true,  .b = false }; // amarillo
+    case NIVEL_VACIO: return (color_t){ .r = true,  .g = false, .b = false }; // rojo
+    }
+    return (color_t){ .r = false, .g = false, .b = true };                    // azul = error
+}
+
+bool bebedero_debe_alertar(nivel_t anterior, nivel_t actual)
+{
+    return (actual == NIVEL_VACIO) && (anterior != NIVEL_VACIO);
+}

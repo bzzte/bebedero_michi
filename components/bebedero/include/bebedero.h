@@ -1,4 +1,5 @@
 #pragma once
+#include <stdbool.h>
 
 typedef enum {
     NIVEL_VACIO = 0,
@@ -6,11 +7,18 @@ typedef enum {
     NIVEL_LLENO
 } nivel_t;
 
-// Promedio de n lecturas. Devuelve 0 si n <= 0 o si muestras es NULL.
+typedef struct {
+    bool r;
+    bool g;
+    bool b;
+} color_t;
+
 int bebedero_promedio(const int *muestras, int n);
-
-// Clasifica una lectura del ADC (0-4095) según el nivel anterior (histéresis).
 nivel_t bebedero_clasificar(int lectura, nivel_t anterior);
-
-// Texto del nivel, para imprimir o enviar a la página web.
 const char *bebedero_nivel_texto(nivel_t nivel);
+
+// Color del LED para cada nivel
+color_t bebedero_color(nivel_t nivel);
+
+// true solo en el momento en que el plato pasa a VACIO
+bool bebedero_debe_alertar(nivel_t anterior, nivel_t actual);
