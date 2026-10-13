@@ -42,6 +42,18 @@ TEST_CASE("Texto de cada nivel", "[texto]")
     TEST_ASSERT_EQUAL_STRING("LLENO", bebedero_nivel_texto(NIVEL_LLENO));
 }
 
+TEST_CASE("La alerta suena solo al vaciarse", "[alerta]")
+{
+    // De MEDIO a VACIO debe alertar
+    TEST_ASSERT_TRUE(bebedero_debe_alertar(NIVEL_MEDIO, NIVEL_VACIO));
+
+    // Si ya estaba VACIO y sigue VACIO, NO debe alertar
+    TEST_ASSERT_FALSE(bebedero_debe_alertar(NIVEL_VACIO, NIVEL_VACIO));
+
+    // De VACIO a MEDIO (alguien llenó el plato) tampoco debe alertar
+    TEST_ASSERT_FALSE(bebedero_debe_alertar(NIVEL_VACIO, NIVEL_MEDIO));
+}
+
 /* ---------- Ejecutar todas las pruebas ---------- */
 
 void app_main(void)
