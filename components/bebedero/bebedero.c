@@ -63,3 +63,27 @@ bool bebedero_debe_alertar(nivel_t anterior, nivel_t actual)
 {
     return (actual == NIVEL_VACIO) && (anterior != NIVEL_VACIO);
 }
+#define ESPERA_ENTRE_VISITAS_MS  10000   // 10 s
+
+void bebedero_visitas_reiniciar(visitas_t *v)
+{
+    v->total = 0;
+    v->ultima_ms = 0;
+    v->pir_anterior = false;
+}
+
+bool bebedero_visitas_actualizar(visitas_t *v, bool pir_activo, int64_t ahora_ms)
+{
+    bool flanco_subida = pir_activo && !v->pir_anterior;
+    v->pir_anterior = pir_activo;
+
+    if (!flanco_subida) {
+        return false;
+    }
+    if (v->total > 0 && (ahora_ms - v->ultima_ms) < ESPERA_ENTRE_VISITAS_MS) {
+        return false;   // es la misma visita, Michi sigue ahí
+    }
+    v->total++;
+    v->ultima_ms = ahora_ms;
+    return true;
+}
