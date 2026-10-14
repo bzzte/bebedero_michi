@@ -140,7 +140,8 @@ bebedero_michi/
 ```
 
 ## Autores
-Danna Alfonso, Nicol Herrera Duvan Rivera
+Danna Alfonso, Nicol Herrera, Duvan Rivera
+
 Optativa II — Universidad de San Buenaventura, Bogotá — 2026-2
 
 ## Créditos
