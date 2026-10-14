@@ -139,6 +139,11 @@ bebedero_michi/
 └── README.md
 ```
 
+
+## Videos y fotos
+
+https://drive.google.com/drive/folders/1T9KYpbd2cirvHXYK_JlyAra6lJa93L55?usp=sharing
+
 ## Autores
 Danna Alfonso, Nicol Herrera, Duvan Rivera
 
@@ -147,6 +152,9 @@ Optativa II — Universidad de San Buenaventura, Bogotá — 2026-2
 ## Créditos
 
 - APIs y documentación de [Espressif ESP-IDF](https://docs.espressif.com/projects/esp-idf/).
+
+
+
 
 ## Licencia
 
